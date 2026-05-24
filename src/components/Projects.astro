@@ -1,0 +1,103 @@
+---
+import { i18n } from '../data/i18n';
+import { TECH_ICONS, DARK_ICONS } from '../data/techIcons';
+
+const es = i18n.es.projects;
+const en = i18n.en.projects;
+
+const proj = es.items[0]!;
+const projEn = en.items[0]!;
+---
+
+<section id="projects" class="section-x section-py section-max">
+  <div data-reveal class="mb-12">
+    <h2 class="font-display font-bold text-section-title tracking-[-0.03em] text-ink">
+      <span class="lang-es">{es.title}</span>
+      <span class="lang-en lang-hidden">{en.title}</span>
+    </h2>
+  </div>
+
+  <div data-reveal data-reveal-delay="0.08">
+    <a
+      href={proj.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="project-card"
+    >
+      <!-- Browser mockup header -->
+      <div class="bg-surface px-4 py-3 border-b border-edge flex items-center gap-2">
+        <div class="flex gap-[6px]">
+          <span class="w-[10px] h-[10px] rounded-full bg-[#ff5f57] block"></span>
+          <span class="w-[10px] h-[10px] rounded-full bg-[#febc2e] block"></span>
+          <span class="w-[10px] h-[10px] rounded-full bg-[#28c840] block"></span>
+        </div>
+        <div
+          class="flex-1 mx-2 bg-page rounded-md px-3 py-1 text-xs font-mono text-ink3"
+        >
+          tabe.mx
+        </div>
+      </div>
+
+      <!-- Content area -->
+      <div class="project-content p-[clamp(28px,4vw,48px)]">
+        <div class="flex items-start justify-between flex-wrap gap-5">
+          <!-- Info -->
+          <div class="flex-[1_1_300px] min-w-0">
+            <h3 class="text-[28px] font-bold tracking-[-0.03em] text-ink mb-2">
+              {proj.name}
+            </h3>
+            <p class="text-base leading-[1.7] text-ink2 mb-4">
+              <span class="lang-es">{proj.desc}</span>
+              <span class="lang-en lang-hidden">{projEn.desc}</span>
+            </p>
+
+            <!-- Tech tags -->
+            <div class="flex gap-[6px] flex-wrap">
+              {
+                proj.tags.map((tag) => {
+                  const icon = TECH_ICONS[tag];
+                  const needsInvert = DARK_ICONS.has(tag);
+                  return (
+                    <span class="inline-flex items-center gap-[5px] text-xs font-mono text-ink3 px-[10px] py-1 bg-surface rounded-[5px] border border-edge">
+                      {icon && (
+                        <img
+                          src={icon}
+                          alt=""
+                          width="14"
+                          height="14"
+                          class:list={['shrink-0', needsInvert && 'icon-dark-invert']}
+                          loading="lazy"
+                        />
+                      )}
+                      {tag}
+                    </span>
+                  );
+                })
+              }
+            </div>
+          </div>
+
+          <!-- CTA arrow -->
+          <div class="project-cta flex items-center gap-[6px] text-sm font-semibold text-accent shrink-0">
+            <span class="lang-es">{proj.cta}</span>
+            <span class="lang-en lang-hidden">{projEn.cta}</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>

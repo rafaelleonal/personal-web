@@ -1,0 +1,57 @@
+---
+import { i18n } from '../data/i18n';
+
+const es = i18n.es.contact;
+const en = i18n.en.contact;
+---
+
+<section
+  id="contact"
+  class="section-x contact-py section-max"
+>
+  <div data-reveal>
+    <div class="contact-card text-center">
+      <h2 class="font-display font-bold text-section-title tracking-[-0.035em] text-ink mb-[10px]">
+        <span class="lang-es">{es.heading}</span>
+        <span class="lang-en lang-hidden">{en.heading}</span>
+      </h2>
+
+      <p class="text-[17px] text-ink2 max-w-[400px] mx-auto mb-7">
+        <span class="lang-es">{es.sub}</span>
+        <span class="lang-en lang-hidden">{en.sub}</span>
+      </p>
+
+      <a
+        href="mailto:rafaleonalfaro@gmail.com"
+        data-magnetic
+        class="inline-flex items-center px-8 py-[13px] bg-accent text-white rounded-[10px] font-semibold text-[15px] magnetic"
+      >
+        rafaleonalfaro@gmail.com
+      </a>
+
+      <div class="mt-6 flex justify-center gap-5 text-sm text-ink3">
+        <span>
+          <span class="lang-es">{es.or}</span>
+          <span class="lang-en lang-hidden">{en.or}</span>
+        </span>
+        <a
+          href="https://www.linkedin.com/in/rafael-le%C3%B3n-alfaro-97617b168/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-ink2 border-b border-edge hover:text-accent transition-colors duration-200"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="https://github.com/rafaelleonal"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-ink2 border-b border-edge hover:text-accent transition-colors duration-200"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

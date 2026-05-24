@@ -1,0 +1,49 @@
+---
+import { i18n } from '../data/i18n';
+
+const es = i18n.es.experience;
+const en = i18n.en.experience;
+---
+
+<section id="experience" class="section-x section-py section-max">
+  <div data-reveal class="mb-12">
+    <h2 class="font-display font-bold text-section-title tracking-[-0.03em] text-ink">
+      <span class="lang-es">{es.title}</span>
+      <span class="lang-en lang-hidden">{en.title}</span>
+    </h2>
+  </div>
+
+  <div class="flex flex-col gap-12">
+    {
+      es.jobs.map((job, i) => (
+        <div data-reveal data-reveal-delay={String(i * 0.08)}>
+          <article class="exp-card">
+            <div class="exp-header flex justify-between items-baseline flex-wrap gap-2 mb-1">
+              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em] text-ink">
+                {job.company}
+              </h3>
+              <time class="font-mono text-xs text-ink3">
+                <span class="lang-es">{job.period}</span>
+                <span class="lang-en lang-hidden">{en.jobs[i]!.period}</span>
+              </time>
+            </div>
+
+            <p class="text-sm text-accent font-medium mb-[14px]">
+              {job.role}
+            </p>
+
+            <ul class="flex flex-col gap-2 list-none">
+              {job.bullets.map((bullet, j) => (
+                <li class="text-[15px] leading-[1.65] text-ink2 pl-4 relative">
+                  <span class="absolute left-0 text-accent select-none">–</span>
+                  <span class="lang-es">{bullet}</span>
+                  <span class="lang-en lang-hidden">{en.jobs[i]!.bullets[j]}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      ))
+    }
+  </div>
+</section>

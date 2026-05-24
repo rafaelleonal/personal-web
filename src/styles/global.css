@@ -1,0 +1,336 @@
+@import "tailwindcss";
+
+/* Class-based dark mode */
+@variant dark (&:is(.dark, .dark *));
+
+/* Font families */
+@theme {
+  --font-display: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Color tokens — inline so they read CSS vars at runtime (theme-switchable) */
+@theme inline {
+  --color-page: var(--bg);
+  --color-surface: var(--surface);
+  --color-edge: var(--border);
+  --color-ink: var(--text);
+  --color-ink2: var(--text-2);
+  --color-ink3: var(--text-3);
+  --color-accent: var(--accent);
+}
+
+/* ─── Light theme (default) ─── */
+:root {
+  --bg: #fcfaf5;
+  --surface: #f3f0e8;
+  --border: #e2ded4;
+  --text: #1a1816;
+  --text-2: #5c584f;
+  --text-3: #8a857a;
+  --accent: #2563eb;
+  --nav-bg: rgba(252, 250, 245, 0.92);
+  --selection-text: #fff;
+}
+
+/* ─── Dark theme ─── */
+.dark {
+  --bg: #0c0c10;
+  --surface: #151518;
+  --border: #222228;
+  --text: #ededf0;
+  --text-2: #9090a0;
+  --text-3: #5a5a6a;
+  --nav-bg: rgba(12, 12, 16, 0.92);
+  --selection-text: #0c0c10;
+}
+
+/* ─── Base ─── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--selection-text);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* Applied after first paint to prevent FOUC on theme transitions */
+.theme-ready,
+.theme-ready * {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease;
+}
+
+/* ─── Nav ─── */
+nav {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.nav-scrolled {
+  background-color: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--border) !important;
+}
+
+/* ─── Section layout helpers ─── */
+@utility section-x {
+  padding-left: clamp(20px, 5vw, 80px);
+  padding-right: clamp(20px, 5vw, 80px);
+}
+
+@utility section-py {
+  padding-top: clamp(60px, 10vh, 120px);
+  padding-bottom: clamp(60px, 10vh, 120px);
+}
+
+@utility section-max {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@utility hero-pt {
+  padding-top: clamp(120px, 18vh, 200px);
+}
+
+@utility hero-pb {
+  padding-bottom: clamp(80px, 12vh, 140px);
+}
+
+@utility contact-py {
+  padding-top: clamp(80px, 12vh, 160px);
+  padding-bottom: clamp(80px, 12vh, 160px);
+}
+
+/* ─── Reveal animation ─── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── i18n visibility ─── */
+.lang-hidden {
+  display: none !important;
+}
+
+/* ─── Experience cards ─── */
+.exp-card {
+  border-left: 3px solid var(--border);
+  padding-left: 28px;
+  transition: border-color 0.35s ease;
+}
+
+.exp-card:hover {
+  border-left-color: var(--accent);
+}
+
+/* ─── Tech badges ─── */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: var(--text-2);
+  padding: 7px 14px;
+  background: var(--surface);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    border-color 0.2s;
+  cursor: default;
+}
+
+.tech-badge:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background-color: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* ─── Project card ─── */
+.project-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition:
+    border-color 0.35s,
+    box-shadow 0.35s,
+    transform 0.35s;
+}
+
+.project-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 37%, transparent);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 7%, transparent);
+  transform: translateY(-4px);
+}
+
+.project-card:hover .project-cta {
+  transform: translateX(4px);
+}
+
+.project-cta {
+  transition: transform 0.3s ease;
+}
+
+/* ─── Cert cards ─── */
+.cert-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+  flex-wrap: wrap;
+}
+
+.cert-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  background-color: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+
+.cert-card:hover .cert-arrow {
+  transform: translateX(3px);
+  color: var(--accent);
+}
+
+.cert-arrow {
+  transition:
+    transform 0.3s,
+    color 0.3s;
+  color: var(--text-3);
+}
+
+/* ─── Project content area ─── */
+.project-content {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 4%, transparent) 0%,
+    var(--surface) 100%
+  );
+}
+
+/* ─── Contact card ─── */
+.contact-card {
+  background-color: color-mix(in srgb, var(--accent) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 20px;
+  padding: clamp(40px, 6vw, 72px);
+}
+
+/* ─── Magnetic buttons ─── */
+@layer utilities {
+  .magnetic {
+    transition:
+      transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .magnetic:hover {
+    transition: none;
+  }
+}
+
+/* ─── Cursor glow ─── */
+#cursor-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: none;
+}
+
+.dark #cursor-glow {
+  display: block;
+}
+
+/* ─── Dark mode icon inversion (for black-on-white icons) ─── */
+.dark .icon-dark-invert {
+  filter: invert(1) brightness(2);
+}
+
+/* ─── Fluid typography ─── */
+@utility text-hero {
+  font-size: clamp(48px, 9vw, 84px);
+}
+
+@utility text-hero-role {
+  font-size: clamp(30px, 5vw, 52px);
+}
+
+@utility text-section-title {
+  font-size: clamp(28px, 4vw, 36px);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .exp-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

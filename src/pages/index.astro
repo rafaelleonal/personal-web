@@ -1,11 +1,89 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Skills from '../components/Skills.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
-	<Welcome />
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <Nav />
+
+  <main class="relative z-10">
+    <Hero />
+    <Experience />
+    <Projects />
+    <Skills />
+    <Contact />
+  </main>
+
+  <Footer />
 </Layout>
+
+<script>
+  const glow = document.getElementById('cursor-glow')!;
+
+  window.addEventListener('mousemove', (e) => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+    glow.style.opacity = '1';
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    glow.style.opacity = '0';
+  });
+
+  // ── Magnetic buttons ──────────────────────────────────────────
+  // CSS handles transitions: `.magnetic { transition: ... }` at rest,
+  // `.magnetic:hover { transition: none }` for instant tracking during hover.
+  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((btn) => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.15;
+      btn.style.transform = `translate(${x}px, ${y}px) scale(1.03)`;
+      btn.style.boxShadow = `0 8px 24px color-mix(in srgb, var(--accent) 30%, transparent)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+      btn.style.boxShadow = '';
+    });
+  });
+
+  // ── Reveal animations ──────────────────────────────────────────
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const el = entry.target as HTMLElement;
+        const delay = parseFloat(el.dataset.revealDelay ?? '0');
+
+        if (delay > 0) {
+          setTimeout(() => el.classList.add('revealed'), delay * 1000);
+        } else {
+          el.classList.add('revealed');
+        }
+
+        observer.unobserve(el);
+      });
+    },
+    { threshold: 0, rootMargin: '0px 0px -40px 0px' },
+  );
+
+  document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+    // Elements already in viewport on load should reveal immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      const delay = parseFloat(el.dataset.revealDelay ?? '0');
+      setTimeout(() => el.classList.add('revealed'), delay * 1000);
+    } else {
+      observer.observe(el);
+    }
+  });
+</script>

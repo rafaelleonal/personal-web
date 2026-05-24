@@ -1,0 +1,89 @@
+---
+import { i18n } from '../data/i18n';
+
+const es = i18n.es.certifications;
+const en = i18n.en.certifications;
+---
+
+<section id="certs" class="section-x section-py section-max">
+  <div data-reveal class="mb-12">
+    <h2 class="font-display font-bold text-section-title tracking-[-0.03em] text-ink">
+      <span class="lang-es">{es.title}</span>
+      <span class="lang-en lang-hidden">{en.title}</span>
+    </h2>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    {
+      es.items.map((cert, i) => (
+        <div data-reveal data-reveal-delay={String(i * 0.06)}>
+          <a
+            href={cert.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cert-card"
+          >
+            <!-- Medal icon -->
+            <div class="cert-icon w-11 h-11 rounded-[10px] shrink-0 flex items-center justify-center">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--accent)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="6"></circle>
+                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"></path>
+              </svg>
+            </div>
+
+            <!-- Info -->
+            <div class="flex-[1_1_200px] min-w-0">
+              <div class="text-base font-semibold tracking-[-0.01em] text-ink mb-[2px]">
+                {cert.name}
+              </div>
+              <div class="flex items-center gap-2 flex-wrap font-mono text-xs text-ink3">
+                <span class="text-accent font-medium">{cert.platform}</span>
+                <span aria-hidden="true">·</span>
+                <span>{cert.instructor}</span>
+                <span aria-hidden="true">·</span>
+                <span>{cert.hours}</span>
+              </div>
+            </div>
+
+            <!-- Date + arrow -->
+            <div class="flex items-center gap-3 shrink-0">
+              <time class="font-mono text-xs text-ink3">{cert.date}</time>
+              <svg
+                class="cert-arrow"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .cert-icon {
+    background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import { i18n } from '../data/i18n';
+import { TECH_ICONS, DARK_ICONS } from '../data/techIcons';
+
+const es = i18n.es.skills;
+const en = i18n.en.skills;
+---
+
+<section id="skills" class="section-x section-py section-max">
+  <div data-reveal class="mb-12">
+    <h2 class="font-display font-bold text-section-title tracking-[-0.03em] text-ink">
+      <span class="lang-es">{es.title}</span>
+      <span class="lang-en lang-hidden">{en.title}</span>
+    </h2>
+  </div>
+
+  <div class="flex flex-col gap-7">
+    {
+      es.categories.map((cat, i) => (
+        <div data-reveal data-reveal-delay={String(i * 0.04)}>
+          <h4 class="text-[13px] font-semibold text-ink3 uppercase tracking-[0.1em] mb-3">
+            <span class="lang-es">{cat.label}</span>
+            <span class="lang-en lang-hidden">{en.categories[i]!.label}</span>
+          </h4>
+          <div class="flex gap-2 flex-wrap">
+            {cat.items.map((item) => {
+              const icon = TECH_ICONS[item];
+              const needsInvert = DARK_ICONS.has(item);
+              return (
+                <span class="tech-badge">
+                  {icon && (
+                    <img
+                      src={icon}
+                      alt=""
+                      width="20"
+                      height="20"
+                      class:list={['shrink-0', needsInvert && 'icon-dark-invert']}
+                      loading="lazy"
+                    />
+                  )}
+                  {item}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
